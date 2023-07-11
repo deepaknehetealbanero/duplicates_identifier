@@ -71,12 +71,11 @@ def main():
 
     imt_dict = list(map(list, row_num_grp_id.items()))
     grp_id_df = spark.createDataFrame(imt_dict, ["rn", "grp_id"])
-    final_data = in_data.join(grp_id_df, in_data.row_num == grp_id_df.rn)#.drop('rn', 'row_num')
+    final_data = in_data.join(grp_id_df, in_data.row_num == grp_id_df.rn).drop('rn', 'row_num')
 
     # print/write data
-    imt_data.show(200, False)
     final_data.show(200, False)
-    #final_data.write.csv(out_parms['out_path'], header='true')
+    final_data.write.csv(out_parms['out_path'], header='true')
 
 if __name__ == '__main__':
     try:
